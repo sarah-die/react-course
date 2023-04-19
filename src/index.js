@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {App} from "./components/App";
+
+
+// values hinzufügen und übergeben
+// auch möglich für Objekte:
+const nameObject = {
+    prename: "Sarah",
+    lastname: "Diethert",
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App title="test" name="diesIstEinName" nameObject={nameObject} />
   </React.StrictMode>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// jsx wird in Funktionsaufrufe umgewandelt
+// ReactDOM.render(
+//     React.createElement ("p", null, "Hallo Hallo"),
+//     document.getElementById("root")
+// )
