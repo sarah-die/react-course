@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 
 /**
  * Nutzen Sie diese Funktion um
@@ -22,7 +22,7 @@ function formatTime(hours, minutes, seconds, hundreds) {
  * Stunden, Minuten, Sekunden und Hundertstel
  * aufsplitten
  */
-function millisecondsToParts(milliseconds) {
+export function millisecondsToParts(milliseconds) {
   const secondsFloat = milliseconds / 1000;
   const HOURS_IN_SECONDS = 60 * 60;
 
@@ -40,18 +40,41 @@ export function App() {
   // Schritt 3: Startbutton
   // Schritt 4: Pausebutton
   // Schritt 5: Stopbutton
+  // const timePassedInMs0 = 10500; // 10,5 Sekunden
 
-  const timePassedInMs0 = 10500; // 10,5 Sekunden
   const [timePassedInMs, setTimePassedInMs] = useState(0);
+  // notStarted, paused, running
+  const [clockState, setClockState] = useState("notStarted");
+
+  // wenn clockState = running, soll timePassed hochgezählt werden
+  useEffect(() => {
+    const ref = setTimeout(() => {
+      if (clockState === "running") {
+        setTimePassedInMs(timePassedInMs + 1);
+      }
+    }, 1)
+
+    //notwendig? -> ja, sonst funktioniert der direkte reset auf Stopp nicht
+    return () => clearTimeout(ref);
+  }, [clockState, timePassedInMs])
+
+  const resetTimer = useCallback(() => {
+    // if (timePassedInMs !== 0 && clockState !== "notStarted") {
+      setTimePassedInMs(0);
+      setClockState("notStarted");
+    // }
+  }, [])
+  // Warning:(66, 11) ESLint: React Hook useCallback has an unnecessary dependency: 'clockState'. Either exclude it or remove the dependency array. (react-hooks/exhaustive-deps)
+
 
   return (
     <div>
       <h1>Stoppuhr</h1>
-      <p>{formatTime(1, 2, 3, 4)}</p>
+      <p>{formatTime(...millisecondsToParts(timePassedInMs))}</p>
       <div>
-        <button type="button">Start</button>
-        <button type="button">Pause</button>
-        <button type="button">Stopp</button>
+        <button type="button" onClick={() => {setClockState("running")}} >Start</button>
+        <button type="button" onClick={() => {setClockState("paused")}}>Pause</button>
+        <button type="button" onClick={() => {resetTimer()}}>Stopp</button>
       </div>
     </div>
   );
