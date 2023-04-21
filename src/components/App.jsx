@@ -2,11 +2,28 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 export function App() {
   const [countdown, setCountdown] = useState(5);
-  const timeoutFunc = useCallback(() => {
+
+  // timeoutFunc wird bei jedem Aufruf neu erzeugt und hat deshalb immer die korrekte Referenz auf "countdown"
+  // useCallback, um permanentes neu erzeugen zu optimieren
+  // Funktion, die useCallback übergeben wird, wird jedesmal neu definiert (statt aufgerufen) wenn es Änderungen gibt
+  // kein depArray = bei jedem Change
+  // leeres depArray = einmal beim mounten
+  // Funktion soll nur dann neu definiert werden, wenn sich der Countdown-Wert ändert -> dep[countdown]
+  // FUnktion wird nur dann neu definiert, wenn notwendig -> Perfomance top!
+  const timeoutFunc = useCallback(
+      // Funktionslogik ist ausgelagert aus useEffect
+      () => {
     if (countdown > 0) {
       setCountdown(countdown - 1);
     }
   }, [countdown]);
+
+  const timeoutFunc2 = useMemo(
+      () => () => {
+        if (countdown > 0) {
+          setCountdown(countdown - 1);
+        }
+      }, [countdown]);
 
   useEffect(() => {
     const ref = setTimeout(timeoutFunc, 1000);
@@ -14,7 +31,10 @@ export function App() {
     return () => clearTimeout(ref);
   }, [countdown]);
 
-  const markup = useMemo(() => {
+  const markup = useMemo(
+      // die folgende Funktion definiert den Wert und gibt das markup zurück
+      // markup verändert sich nur, wenn sich countdown value ändert -> ins depArray
+      () => {
     return (
       <div>
         <h1>Countdown</h1>
