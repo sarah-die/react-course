@@ -41,7 +41,8 @@ export function App() {
   // Schritt 4: Pausebutton
   // Schritt 5: Stopbutton
 
-  const timePassedInMs = 10500; // 10,5 Sekunden
+  const timePassedInMs0 = 10500; // 10,5 Sekunden
+  const [timePassedInMs, setTimePassedInMs] = useState(0);
 
   return (
     <div>
