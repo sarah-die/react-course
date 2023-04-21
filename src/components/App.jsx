@@ -48,14 +48,14 @@ export function App() {
 
   // wenn clockState = running, soll timePassed hochgezählt werden
   useEffect(() => {
-    const ref = setTimeout(() => {
+    const ref = setInterval(() => {
       if (clockState === "running") {
-        setTimePassedInMs(timePassedInMs + 1);
+        setTimePassedInMs(timePassedInMs + 100);
       }
-    }, 1)
+    }, 100)
 
     //notwendig? -> ja, sonst funktioniert der direkte reset auf Stopp nicht
-    return () => clearTimeout(ref);
+    return () => clearInterval(ref);
   }, [clockState, timePassedInMs])
 
   const resetTimer = useCallback(() => {
@@ -64,8 +64,6 @@ export function App() {
       setClockState("notStarted");
     // }
   }, [])
-  // Warning:(66, 11) ESLint: React Hook useCallback has an unnecessary dependency: 'clockState'. Either exclude it or remove the dependency array. (react-hooks/exhaustive-deps)
-
 
   return (
     <div>
