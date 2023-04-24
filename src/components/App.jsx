@@ -12,6 +12,10 @@ export function App() {
         job="Frontend Architect"
       />
 
+    // Context als Wrapper für den OpenToWork Bereich
+    // Definition vom Kontext:
+    // Initialwert wird durch Value überschrieben
+
       <OpenToWorkContext.Provider value={true}>
         <div>
           <h2>Open to work:</h2>

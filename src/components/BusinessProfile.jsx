@@ -3,6 +3,7 @@ import { OpenToWorkContext } from "../OpenToWorkContext";
 
 export function BusinessProfile(props) {
   // is person open-to-work ?
+  // nutzen des Kontexts
   const isOpenToWork = useContext(
     OpenToWorkContext
   );
