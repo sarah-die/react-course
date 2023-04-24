@@ -72,7 +72,7 @@ export function App() {
       <div>
         <button type="button" onClick={() => {setClockState("running")}} >Start</button>
         <button type="button" onClick={() => {setClockState("paused")}}>Pause</button>
-        <button type="button" onClick={() => {resetTimer()}}>Stopp</button>
+        <button type="button" onClick={resetTimer}>Stopp</button>
       </div>
     </div>
   );
