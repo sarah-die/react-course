@@ -7,6 +7,8 @@ export function Photos(props) {
       <p>Hier sind ein paar tolle Fotos:</p>
 
       {props.imageIds.map((id) => (
+        // um aus der Photo-Component heraus auf SinglePhoto zu routen
+        // Link zeigt auf image-ID
         <Link to={id} key={id}>
           <img
             alt=""

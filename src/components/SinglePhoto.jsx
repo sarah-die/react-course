@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 
 export function SinglePhoto() {
+  // Hook, um an dynamische ID ran zu kommen
   const params = useParams();
 
   return (
