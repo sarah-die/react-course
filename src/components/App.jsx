@@ -2,8 +2,12 @@ import React, { useState } from "react";
 
 export function App() {
   const [formData, setFormData] = useState({});
+  // Datumsfeld an-/ ausschalten
+  // wenn das Feld an ist und ein Datum eingegeben wird, dann aus, wieder anschalten. Datum ist weg, weil Feld neu gerendert wird und die Daten nicht persistent sind
   const [showDate, setShowDate] = useState(true);
 
+  // states verwenden, um Persistenz herzustellen
+  // diese States als values im InputField verwenden
   const [fullname, setFullname] = useState("");
   const [birthdate, setBirthdate] = useState("");
 
@@ -14,10 +18,12 @@ export function App() {
   };
 
   const fullnameChanged = (event) => {
+    // wenn das Event (onInput) triggert, wollen wir den Value holen und im state speichern
     setFullname(event.target.value);
   };
 
   const birthdateChanged = (event) => {
+    // wenn das Event (onInput) triggert, wollen wir den Value holen und im state speichern
     setBirthdate(event.target.value);
   };
 
@@ -40,7 +46,9 @@ export function App() {
                 id="fullname"
                 name="fullname"
                 placeholder="Ihr Name"
+                // value={myState}
                 value={fullname}
+                // onInput = reagiert auf Änderungen
                 onInput={fullnameChanged}
               />
             </p>
@@ -55,13 +63,16 @@ export function App() {
                   type="date"
                   id="birthdate"
                   name="birthdate"
+                  // onInput = reagiert auf Änderungen
                   onInput={birthdateChanged}
+                  // value={myState}
                   value={birthdate}
                 />
               </p>
             )}
             <button
               type="button"
+              // onClick-Listener
               onClick={() => setShowDate(!showDate)}
             >
               Geburtstag an/aus
