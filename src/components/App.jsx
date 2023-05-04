@@ -1,17 +1,45 @@
 import React, { useState } from "react";
 
+// ToDo
+// CheckBox statt ToggleButton
+// Daten dürfen beim Absenden das Geburtsdatum nicht beinhalten, wenn es nicht angewählt wurde
+// bel. select-Feld mit Werten meiner Wahl hinzufügen
+// alle zu sehenden Felder sind Pflichtfelder -> Formular kann nur abgesendet werden, wenn kein leeres Feld
+
 export function App() {
   const [formData, setFormData] = useState({});
   const [showDate, setShowDate] = useState(true);
 
   const [fullname, setFullname] = useState("");
   const [birthdate, setBirthdate] = useState("");
+  const [mySelect, setMySelect] = useState("male");
 
   const formSubmitted = (submitEvent) => {
-    submitEvent.preventDefault();
+    // if (checkSubmit()) {
+      submitEvent.preventDefault();
+      if (showDate) {
+        setFormData({ fullname, birthdate, mySelect });
+      } else {
+        setFormData({ fullname, mySelect });
+      }
 
-    setFormData({ fullname, birthdate });
+      // Alternativ:
+      // let formData = { fullname, mySelect };
+      // if (showDate) {
+      //   formData.birthdate = birthdate;
+      // }
+      // setFormData(formData);
+
+    // }
   };
+
+  // besser: an Felder "required"-Attribut setzen
+  // const checkSubmit = () => {
+  //   if (fullname === "" || birthdate === "") {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   const fullnameChanged = (event) => {
     setFullname(event.target.value);
@@ -20,6 +48,10 @@ export function App() {
   const birthdateChanged = (event) => {
     setBirthdate(event.target.value);
   };
+
+  const genderChanged = (event) => {
+    setMySelect(event.target.value);
+  }
 
   return (
     <>
@@ -42,6 +74,7 @@ export function App() {
                 placeholder="Ihr Name"
                 value={fullname}
                 onInput={fullnameChanged}
+                required
               />
             </p>
 
@@ -57,23 +90,32 @@ export function App() {
                   name="birthdate"
                   onInput={birthdateChanged}
                   value={birthdate}
+                  required
                 />
               </p>
             )}
-
-            <button
-              type="button"
-              onClick={() => setShowDate(!showDate)}
-            >
-              Geburtstag an/aus
-            </button>
-
+            <>
+              <input
+                id={"geburtstagCheckbox"}
+                type={"checkbox"}
+                onChange={() => setShowDate(!showDate)}
+                checked={showDate}
+              ></input>
+              <label
+                htmlFor={"geburtstagCheckbox"}>
+                Geburtstag an/aus
+              </label>
+            </>
             <p>
               <label htmlFor="mySelect">
-                Select-Feld:
+                Geschlecht:
               </label>
               <br />
-              [Select]
+              <select value={mySelect} name="gender" onChange={genderChanged}>
+                <option value={"male"}>männlich</option>
+                <option value={"female"}>weiblich</option>
+                <option value={"divers"}>divers</option>
+              </select>
             </p>
 
             <p>
